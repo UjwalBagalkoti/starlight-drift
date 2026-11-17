@@ -340,9 +340,10 @@ class Play extends Phaser.Scene {
     if (!this.dashReady || this.over || this.paused) return;
     this.dashReady = false; this.dashing = true;
     this.player.setVelocity(this.dir.x * 760, this.dir.y * 760);
+    this.player.setTint(0x7ee8d0);
     this.cameras.main.shake(120, 0.004);
     sfx(300, 0.2, 'sawtooth', 500, 0.05);
-    this.time.delayedCall(190, () => { this.dashing = false; });
+    this.time.delayedCall(190, () => { this.dashing = false; this.player.clearTint(); });
     this.time.delayedCall(1800, () => { this.dashReady = true; sfx(700, 0.06, 'sine', 0, 0.04); });
   }
 
@@ -433,7 +434,8 @@ class Play extends Phaser.Scene {
     if (!this.frozen) this.foes.children.each(f => { if (f.hunter) this.physics.accelerateToObject(f, p, 95); });
 
     if (this.dashing) {
-      this.tweens.add({ targets: this.add.image(p.x, p.y, 'player').setAlpha(0.5).setDepth(4), alpha: 0, duration: 260, onComplete: (tw, t) => t[0].destroy() });
+      // The existing player-following particle emitter supplies the dash trail.
+      // Avoid allocating a new image and tween on every frame.
       return;
     }
     let vx = 0, vy = 0;
