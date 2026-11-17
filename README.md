@@ -1,5 +1,10 @@
 # ✨ Starlight Drift
 
+
+## Live Demo
+
+Play **Starlight Drift** in your browser: [https://starlight-drift.vercel.app](https://starlight-drift.vercel.app)
+
 A fast-paced, arcade-style survival game built with **Phaser 3** and vanilla JavaScript. Pilot a glowing starship through a field of hazards, collect stars, build combos, unlock increasingly challenging levels, and take on bosses.
 
 > **Play locally:** open `Starlight Drift.html` in a modern browser. An internet connection is required to load Phaser from its CDN.
