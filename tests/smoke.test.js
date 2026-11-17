@@ -38,9 +38,10 @@ test('persistent score access is guarded for restricted browser storage', () => 
 });
 
 test('inline JavaScript parses without syntax errors', () => {
-  const scripts = [...html.matchAll(/<script(?:\\s[^>]*)?>([\\s\\S]*?)<\\/script>/gi)]
-    .map(match => match[1])
-    .filter(source => source.trim());
-  assert.ok(scripts.length > 0, 'Expected at least one inline game script');
-  for (const source of scripts) new vm.Script(source, { filename: 'index.html:inline-script' });
+  const scriptStart = html.indexOf('<script>');
+  const scriptEnd = html.indexOf('</script>', scriptStart);
+  assert.ok(scriptStart >= 0 && scriptEnd > scriptStart, 'Expected an inline game script');
+  const source = html.slice(scriptStart + '<script>'.length, scriptEnd);
+  assert.ok(source.trim(), 'Expected non-empty inline game script');
+  new vm.Script(source, { filename: 'index.html:inline-script' });
 });
